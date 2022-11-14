@@ -21,9 +21,12 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.rdajila.tandroidsocketio.databinding.ActivityMainBinding;
 import com.rdajila.tandroidsocketio.services.DeviceSocketIO;
+import com.rdajila.tandroidsocketio.util.Constants;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+
+    private TextView txtMsg = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +50,16 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        txtMsg = (TextView)findViewById(R.id.textview_first);
+
+
+        /*binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         // Filtro de acciones que serán alertadas
         final String ACTION_RUN_SERVICE = "com.rdajila.tandroidsocketio.services.action.RUN_SERVICE";
@@ -116,7 +124,10 @@ public class MainActivity extends AppCompatActivity {
                 case ACTION_RUN_SERVICE:
                     //memoryUsageText.setText(intent.getStringExtra(Constants.EXTRA_MEMORY));
                     Log.d(TAG, "Servicio iniciado escucha desde MainActivity...");
-                    Log.d(TAG, "Counter: " + intent.getStringExtra(COUNTER));
+                    Log.d(TAG, "Main-MSG: " + intent.getStringExtra(Constants.EXTRA_MSG));
+                    Log.d(TAG, "Main-Counter: " + intent.getStringExtra(Constants.EXTRA_COUNTER));
+                    //txtMsg.setText(intent.getStringExtra(Constants.EXTRA_MSG + " -- " + intent.getStringExtra(Constants.EXTRA_COUNTER)));
+                    txtMsg.setText("Hola -> " + intent.getStringExtra(Constants.EXTRA_COUNTER));
                     break;
                 case ACTION_MEMORY_EXIT:
                     // Guardar info en base de datos que el servicio ha sido destruido
